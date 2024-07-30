@@ -128,86 +128,6 @@ get_header();
     </section>
     <!-- Course categories section ends -->
 
-    <!-- Learn the art & business of web design section starts  -->
-    <section id="course-details">
-        <div id="Course-details-icon">
-            <div>
-                <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/asset/images/index-page/course_details_icon.svg'); ?>" alt="<?php esc_attr_e('Course details', 'tutorstarter'); ?>" />
-                <span><?php esc_html_e('Course details', 'tutorstarter'); ?></span>
-            </div>
-        </div>
-
-        <h2 id="course-details-heading"><?php esc_html_e('Explore Our Categories', 'tutorstarter'); ?></h2>
-
-        <div class="grid-container">
-            <div class="grid-item">
-                <div>
-                    <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/asset/images/index-page/data-science-icon.svg'); ?>" alt="<?php esc_attr_e('Data Science', 'tutorstarter'); ?>" />
-                    <p><?php esc_html_e('Data Science', 'tutorstarter'); ?></p>
-                </div>
-            </div>
-            <div class="grid-item">
-                <div>
-                    <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/asset/images/index-page/Machine-Learning-icon.svg'); ?>" alt="<?php esc_attr_e('Machine Learning', 'tutorstarter'); ?>" />
-                    <p><?php esc_html_e('Machine Learning', 'tutorstarter'); ?></p>
-                </div>
-            </div>
-            <div class="grid-item">
-                <div>
-                    <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/asset/images/index-page/Code-Analytics-icon.svg'); ?>" alt="<?php esc_attr_e('Code Analytics', 'tutorstarter'); ?>" />
-                    <p><?php esc_html_e('Code Analytics', 'tutorstarter'); ?></p>
-                </div>
-            </div>
-            <div class="grid-item">
-                <div>
-                    <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/asset/images/index-page/Data-Engineer-icon.svg'); ?>" alt="<?php esc_attr_e('Data Engineer', 'tutorstarter'); ?>" />
-                    <p><?php esc_html_e('Data Engineer', 'tutorstarter'); ?></p>
-                </div>
-            </div>
-        </div>
-
-        <h3 id="join-community">
-            <?php esc_html_e('Join a community of 3,000+ Professional Web Designer & Developers', 'tutorstarter'); ?>
-        </h3>
-
-        <div class="join-community-grid">
-            <div class="image-shape-container">
-                <div></div>
-                <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/asset/images/index-page/butterfly_59.png'); ?>" alt="<?php esc_attr_e('butterfly', 'tutorstarter'); ?>">
-            </div>
-
-            <div class="join-community-grid-item">
-                <div class="mobile-device-ellipse"></div>
-                <div>
-                    <h4><?php esc_html_e('Help From Experts', 'tutorstarter'); ?></h4>
-                    <p>
-                        <?php esc_html_e('Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.et.', 'tutorstarter'); ?>
-                    </p>
-                </div>
-            </div>
-            <div class="join-community-grid-item">
-                <div class="mobile-device-ellipse"></div>
-                <div>
-                    <h4><?php esc_html_e('Build Your Network', 'tutorstarter'); ?></h4>
-                    <p>
-                        <?php esc_html_e('Velit officia consequat duis enim velit mollit. Exercitation veniam consequat.', 'tutorstarter'); ?>
-                    </p>
-                </div>
-            </div>
-            <div class="join-community-grid-item">
-                <div class="mobile-device-ellipse"></div>
-                <div>
-                    <h4><?php esc_html_e('Real-life Lessons', 'tutorstarter'); ?></h4>
-                    <p>
-                        <?php esc_html_e('Deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.', 'tutorstarter'); ?>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Learn the art & business of web design section ends  -->
-
-
     <!-- Course listing section starts -->
     <section id="art-business">
         <div id="pill-container">
@@ -298,7 +218,7 @@ get_header();
     </section>
     <!-- iframe-section ends  -->
 
-    <!-- tutor Success Stories section start  -->
+    <!-- tutor Success Stories & News letter section start  -->
     <section id="Tutor-Success-Stories">
         <div class="Tutor-Success-Stories-pill" id="pill-container">
             <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/asset/images/index-page/ellipse-26.svg'); ?>" alt="<?php esc_attr_e('ellipse shape', 'tutorstarter'); ?>">
@@ -348,6 +268,7 @@ get_header();
             </div>
         </div>
 
+        <!-- News letter -->
         <?php get_template_part('template-parts/newsletter'); ?>
 
     </section>

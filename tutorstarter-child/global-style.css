@@ -2,7 +2,7 @@
 
 :root {
   --background-color: #ffffff;
-  --secondry-background-color: #f4f6ff;
+  --secondary-background-color: #f4f6ff;
   --primary-black: #000000;
   --primary-blue: #0038ff;
   --secondary-color: #2ecc71;
@@ -130,6 +130,7 @@ body {
 
 .hero-left h2 {
   font-size: 10vh;
+  line-height: 82.03px;
 }
 
 .hero-left h2 span:nth-child(2),
@@ -159,7 +160,7 @@ body {
 
 /* Course details section start  */
 #course-details {
-  background-color: var(--secondry-background-color);
+  background-color: var(--secondary-background-color);
   padding: 0 5%;
   /* margin-top: 100px; */
 }
@@ -206,6 +207,9 @@ body {
 .grid-item > div p {
   font-size: 22px;
   font-weight: 500;
+}
+.grid-item > div img {
+  display: inline;
 }
 
 #join-community {
@@ -357,7 +361,7 @@ body {
 /* iframe-section start  */
 #iframe-section {
   padding: 0 5%;
-  background-color: var(--secondry-background-color);
+  background-color: var(--secondary-background-color);
   margin-top: 30px;
   padding-bottom: 80px;
 }
@@ -442,6 +446,8 @@ body {
 
 .testimonial-grid-item-profile img {
   border-radius: 50%;
+  height: 60px;
+  width: 60px;
 }
 
 .testimonial-grid-item-profile p {
@@ -800,7 +806,7 @@ body {
   }
 
   .hero-left h2 {
-    font-size: 6vw;
+    font-size: 5vw;
   }
 
   .hero-right img {
