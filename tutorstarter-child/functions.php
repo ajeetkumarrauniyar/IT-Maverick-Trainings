@@ -20,6 +20,9 @@ function child_theme_enqueue_styles()
     // Enqueue Additional Stylesheets
     wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/global-style.css', array('child-style'), wp_get_theme()->get('1.0.0'));
 
+    // Enqueue Login Stylesheets
+    wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/login.css', array('child-style'), wp_get_theme()->get('1.0.0'));
+
     // Enqueue Checkout Stylesheets
     if (is_checkout()) {
         wp_enqueue_style('custom-checkout', get_stylesheet_directory_uri() . '/custom-checkout.css');
@@ -138,3 +141,74 @@ function woocommerce_checkout_coupon_form_custom()
     );
     echo '</tr></td>';
 }
+
+/*----------------------------------------------------------------
+Custom Common Login & Registration 
+---------------------------------------------------------------- */
+// Handle registration
+function custom_registration_handler()
+{
+    if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password'])) {
+        $username = sanitize_user($_POST['username']);
+        $email = sanitize_email($_POST['email']);
+        $password = $_POST['password'];
+
+        $userdata = array(
+            'user_login'    => $username,
+            'user_email'    => $email,
+            'user_pass'     => $password,
+            'role'          => 'subscriber', // Set the default role or adjust as needed
+        );
+
+        $user_id = wp_insert_user($userdata);
+
+        if (!is_wp_error($user_id)) {
+            wp_redirect(home_url('/login'));
+            exit;
+        } else {
+            // Handle errors (display error messages or redirect)
+            wp_redirect(home_url('/register?error=1'));
+            exit;
+        }
+    }
+}
+add_action('admin_post_nopriv_custom_registration', 'custom_registration_handler');
+add_action('admin_post_custom_registration', 'custom_registration_handler');
+//--------------------------------------------------------------------------------------------------------------------
+// Redirect users to a specific page after they log in
+function custom_login_redirect($redirect_to, $request, $user)
+{
+    $login_page = home_url('/login');
+    // Ensure $user is an object before accessing properties
+    if (is_wp_error($user) || !is_object($user)) {
+        return $login_page;
+    }
+
+    // Check if the user is logged in
+    if (is_array($user->roles)) {
+        return home_url('/dashboard'); // redirect to dashboard page after login
+    } else {
+        return $redirect_to;
+    }
+}
+add_filter('login_redirect', 'custom_login_redirect', 10, 3);
+
+// Redirect to Custom Login Page on Error
+function custom_login_failed()
+{
+    $login_page = home_url('/login');
+    wp_redirect($login_page . '?login=failed');
+    exit;
+}
+add_action('wp_login_failed', 'custom_login_failed');
+
+function custom_verify_user_pass($user, $username, $password)
+{
+    $login_page = home_url('/login');
+    if ($username == '' || $password == '') {
+        wp_redirect($login_page . '?login=empty');
+        exit;
+    }
+    return $user; // Always return $user
+}
+add_filter('authenticate', 'custom_verify_user_pass', 1, 3);
