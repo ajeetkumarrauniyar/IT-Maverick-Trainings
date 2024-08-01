@@ -23,6 +23,9 @@ function child_theme_enqueue_styles()
     // Enqueue Login Stylesheets
     wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/login.css', array('child-style'), wp_get_theme()->get('1.0.0'));
 
+    // Enqueue Login Stylesheets
+    wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/password-reset.css', array('child-style'), wp_get_theme()->get('1.0.0'));
+
     // Enqueue Checkout Stylesheets
     if (is_checkout()) {
         wp_enqueue_style('custom-checkout', get_stylesheet_directory_uri() . '/custom-checkout.css');
@@ -212,3 +215,13 @@ function custom_verify_user_pass($user, $username, $password)
     return $user; // Always return $user
 }
 add_filter('authenticate', 'custom_verify_user_pass', 1, 3);
+
+// Redirect the default lost password URL to the custom password reset page
+function custom_lost_password_redirect()
+{
+    if (isset($_GET['action']) && $_GET['action'] === 'lostpassword') {
+        wp_redirect(home_url('/forgot-password'));
+        exit;
+    }
+}
+add_action('login_form_lostpassword', 'custom_lost_password_redirect');

@@ -51,5 +51,8 @@ if (isset($_GET['login'])) {
         );
         wp_login_form($args);
         ?>
+        <p style="margin-top: 10px;">
+            <a href="<?php echo home_url('/forgot-password'); ?>">Forgot Password?</a>
+        </p>
     </div>
 </div>
