@@ -23,8 +23,11 @@ function child_theme_enqueue_styles()
     // Enqueue Login Stylesheets
     wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/login.css', array('child-style'), wp_get_theme()->get('1.0.0'));
 
-    // Enqueue Login Stylesheets
+    // Enqueue password reset Stylesheets
     wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/password-reset.css', array('child-style'), wp_get_theme()->get('1.0.0'));
+
+     // Enqueue contact Stylesheets
+     wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/page-contact.css', array('child-style'), wp_get_theme()->get('1.0.0'));
 
     // Enqueue Checkout Stylesheets
     if (is_checkout()) {
