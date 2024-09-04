@@ -1,17 +1,7 @@
-*.html
-*.htm
 
-*.json
-*.js
-.vscode/
-
-.DS_Store
-*.zip
-
-x/*
-
-tutorstarter/*
-tutorstarter-child/asset/images/checkout/*
-tutorstarter-child/asset/images/footer/*
-tutorstarter-child/asset/images/header/*
-
+/*
+!wp-content/
+wp-content/*
+!wp-content/themes/
+wp-content/themes/*
+!wp-content/themes/tutorstarter-child
