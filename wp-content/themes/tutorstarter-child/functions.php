@@ -2,36 +2,40 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-
 // BEGIN ENQUEUE PARENT ACTION
 
-// Enqueue Parent Theme Stylesheet
+// Enqueue Parent and Child Theme Stylesheets
 function child_theme_enqueue_styles()
 {
     // Enqueue Parent Stylesheet
     wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
 
     // Enqueue Child Theme Stylesheet
-    wp_enqueue_style('child-style', get_stylesheet_directory_uri() . '/style.css', array('parent-style'), wp_get_theme()->get('1.0.0'));
+    wp_enqueue_style('child-style', get_stylesheet_directory_uri() . '/style.css', array('parent-style'), wp_get_theme()->get('Version'));
 
-    // Enqueue Tailwind CSS Stylesheets
-    // wp_enqueue_style('tailwind-style', get_stylesheet_directory_uri() . '/tailwindcss_output.css', array('child-style'), wp_get_theme()->get('1.0.0'));
+    // Enqueue Global Stylesheet
+    wp_enqueue_style('global-styles', get_stylesheet_directory_uri() . '/global-style.css', array('child-style'), wp_get_theme()->get('Version'));
 
-    // Enqueue Additional Stylesheets
-    wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/global-style.css', array('child-style'), wp_get_theme()->get('1.0.0'));
+    // Enqueue Additional Stylesheets Conditionally
+    if (is_page_template('page-home.php')) {
+        wp_enqueue_style('page-home-styles', get_stylesheet_directory_uri() . '/page-home.css', array('global-styles'), wp_get_theme()->get('Version'));
+    }
+    
+    if (is_page('login')) {
+        wp_enqueue_style('login-styles', get_stylesheet_directory_uri() . '/login.css', array('global-styles'), wp_get_theme()->get('Version'));
+    }
 
-    // Enqueue Login Stylesheets
-    wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/login.css', array('child-style'), wp_get_theme()->get('1.0.0'));
+    if (is_page('password-reset')) {
+        wp_enqueue_style('password-reset-styles', get_stylesheet_directory_uri() . '/password-reset.css', array('global-styles'), wp_get_theme()->get('Version'));
+    }
 
-    // Enqueue password reset Stylesheets
-    wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/password-reset.css', array('child-style'), wp_get_theme()->get('1.0.0'));
-
-     // Enqueue contact Stylesheets
-     wp_enqueue_style('custom-styles', get_stylesheet_directory_uri() . '/page-contact.css', array('child-style'), wp_get_theme()->get('1.0.0'));
-
+    // Enqueue Custom Blog Stylesheets
+    if (is_home()) {
+        wp_enqueue_style('home-styles', get_stylesheet_directory_uri() . '/home.css', array('global-styles'), wp_get_theme()->get('Version'));
+    }
     // Enqueue Checkout Stylesheets
     if (is_checkout()) {
-        wp_enqueue_style('custom-checkout', get_stylesheet_directory_uri() . '/custom-checkout.css');
+        wp_enqueue_style('custom-checkout', get_stylesheet_directory_uri() . '/custom-checkout.css', array('child-style'), wp_get_theme()->get('Version'));
     }
 }
 add_action('wp_enqueue_scripts', 'child_theme_enqueue_styles');
@@ -81,14 +85,14 @@ function custom_add_to_cart_text()
 }
 
 // Redirect cart page to checkout
-add_action('template_redirect', 'redirect_cart_to_checkout');
-function redirect_cart_to_checkout()
-{
-    if (is_cart()) {
-        wp_redirect(wc_get_checkout_url());
-        exit;
-    }
-}
+// add_action('template_redirect', 'redirect_cart_to_checkout');
+// function redirect_cart_to_checkout()
+// {
+//     if (is_cart()) {
+//         wp_redirect(wc_get_checkout_url());
+//         exit;
+//     }
+// }
 
 // Add WooCommerce theme support
 function tutorstarter_add_woocommerce_support()
