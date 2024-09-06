@@ -46,6 +46,9 @@ body {
   background: #0038ff1a;
   color: var(--primary-blue);
 }
+#contact-us-newsletter {
+  display: none;
+}
 /* common css for all devices ends  */
 
 /* style for desktop  */
@@ -92,8 +95,8 @@ body {
   position: absolute;
 }
 .first-circle {
-  height: 40vw;
-  width: 40vw;
+  height: 39vw;
+  width: 39vw;
   left: -12%;
   top: -8%;
 }
@@ -126,6 +129,7 @@ body {
   min-height: 10vw;
   display: flex;
   gap: 2vw;
+  margin-bottom: 20px;
 }
 .contact-form {
   box-shadow: 0px 4px 10.6px 0px #00000033;
@@ -158,14 +162,14 @@ textarea {
   padding: 15px 10px;
   border-radius: 3px;
 }
-#submit-btn {
-  text-align: center;
-  background-color: var(--primary-blue);
-  color: white;
+#submit-btn  {
+  /* text-align: center; */
+  /* background-color: var(--primary-blue); */
+  /* color: white; */
   width: 50%;
   padding: 10px;
-  border: transparent;
-  border-radius: 10px;
+  /* border: transparent; */
+  /* border-radius: 10px; */
   margin-top: 40px;
   /* font-family: Montserrat; */
   font-size: 24px;
@@ -271,7 +275,7 @@ textarea {
     min-height: 10vw;
     display: flex;
     gap: 4vw;
-    margin: 0 40px 0 50px;
+    margin: 0 40px 20px 50px;
   }
   .contact-form {
     padding: 25px;
@@ -332,6 +336,7 @@ textarea {
 @media only screen and (max-width: 576px) {
   .shape-container {
     min-height: 45vw;
+    position: relative;
     /* align-items: end; */
   }
   #heading-container {
@@ -364,6 +369,9 @@ textarea {
     right: -5%;
     top: 25%;
   }
+  .butterfly-container{
+    display: block;
+  }
   .btr-img {
     position: absolute;
     width: 30%;
@@ -386,6 +394,7 @@ textarea {
     gap: 4vw;
     flex-direction: column;
     margin: 0;
+    margin-bottom: 0;
   }
   .contact-form {
     width: 90%;
@@ -444,46 +453,9 @@ textarea {
   }
   /* form container ends  */
   /* ------------------------------------------------------------------------ */
-  /* news letter container  */
-  #newsletter-container {
-    display: block !important;
-    border-radius: 5px;
-    margin: 0px 1rem;
+  #contact-us-newsletter {
+    display: block;
+    margin: 0px 15px;
     margin-top: 45px;
-    margin-bottom: 45px;
-    background: linear-gradient(
-      90deg,
-      rgba(0, 56, 255, 0.19) 0%,
-      rgba(0, 34, 153, 0.19) 100%
-    );
-    padding: 30px 10px;
-  }
-  #newsletter-container > div {
-    width: 100%;
-    gap: 5px;
-    display: flex;
-  }
-
-  #newsletter-container > div p {
-    font-size: 12px;
-    line-height: 14.7px;
-    width: 45%;
-    font-weight: 700;
-  }
-  #newsletter-container > div input {
-    border: none;
-    border-radius: 3px;
-    padding: 5px 20px 5px 14px;
-    font-weight: 400;
-    text-align: left;
-    font-size: 7px;
-    line-height: 8.2px;
-  }
-  #newsletter-container > div button {
-    padding: 3px 12px;
-    font-size: 7px;
-    font-weight: 500;
-    border-radius: 3px;
-    line-height: 8px;
   }
 }

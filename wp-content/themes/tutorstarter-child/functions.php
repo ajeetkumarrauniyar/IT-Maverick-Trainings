@@ -1,6 +1,7 @@
 <?php
 // Exit if accessed directly
-if (!defined('ABSPATH')) exit;
+if (!defined('ABSPATH'))
+    exit;
 
 // BEGIN ENQUEUE PARENT ACTION
 
@@ -14,13 +15,13 @@ function child_theme_enqueue_styles()
     wp_enqueue_style('child-style', get_stylesheet_directory_uri() . '/style.css', array('parent-style'), wp_get_theme()->get('Version'));
 
     // Enqueue Global Stylesheet
-    wp_enqueue_style('global-styles', get_stylesheet_directory_uri() . '/global-style.css', array('child-style'), wp_get_theme()->get('Version'));
+    wp_enqueue_style('global-style', get_stylesheet_directory_uri() . '/global-style.css', array('child-style'), wp_get_theme()->get('Version'));
 
     // Enqueue Additional Stylesheets Conditionally
     if (is_page_template('page-home.php')) {
         wp_enqueue_style('page-home-styles', get_stylesheet_directory_uri() . '/page-home.css', array('global-styles'), wp_get_theme()->get('Version'));
     }
-    
+
     if (is_page('login')) {
         wp_enqueue_style('login-styles', get_stylesheet_directory_uri() . '/login.css', array('global-styles'), wp_get_theme()->get('Version'));
     }
@@ -37,11 +38,15 @@ function child_theme_enqueue_styles()
     if (is_checkout()) {
         wp_enqueue_style('custom-checkout', get_stylesheet_directory_uri() . '/custom-checkout.css', array('child-style'), wp_get_theme()->get('Version'));
     }
+
+    //Enqueue Contact us Stylesheet
+    wp_enqueue_style('contact-us', get_stylesheet_directory_uri() . '/page-contact.css', array('child-style'), wp_get_theme()->get('Version'));
+
 }
 add_action('wp_enqueue_scripts', 'child_theme_enqueue_styles');
 
 // Enqueue RTL Stylesheet if necessary
-if (!function_exists('chld_thm_cfg_locale_css')) :
+if (!function_exists('chld_thm_cfg_locale_css')):
     function chld_thm_cfg_locale_css($uri)
     {
         if (empty($uri) && is_rtl() && file_exists(get_template_directory() . '/rtl.css'))
@@ -52,10 +57,10 @@ endif;
 add_filter('locale_stylesheet_uri', 'chld_thm_cfg_locale_css');
 
 // Enqueue Child Theme Configurator Stylesheet
-if (!function_exists('child_theme_configurator_css')) :
+if (!function_exists('child_theme_configurator_css')):
     function child_theme_configurator_css()
     {
-        wp_enqueue_style('chld_thm_cfg_separate', trailingslashit(get_stylesheet_directory_uri()) . 'ctc-style.css', array('main'));
+        wp_enqueue_style('chld_thm_cfg_separate', trailingslashit(get_stylesheet_directory_uri()) . 'style.css', array('main'));
     }
 endif;
 add_action('wp_enqueue_scripts', 'child_theme_configurator_css', 10);
@@ -164,10 +169,10 @@ function custom_registration_handler()
         $password = $_POST['password'];
 
         $userdata = array(
-            'user_login'    => $username,
-            'user_email'    => $email,
-            'user_pass'     => $password,
-            'role'          => 'subscriber', // Set the default role or adjust as needed
+            'user_login' => $username,
+            'user_email' => $email,
+            'user_pass' => $password,
+            'role' => 'subscriber', // Set the default role or adjust as needed
         );
 
         $user_id = wp_insert_user($userdata);
@@ -232,3 +237,107 @@ function custom_lost_password_redirect()
     }
 }
 add_action('login_form_lostpassword', 'custom_lost_password_redirect');
+
+
+
+// Create a Table For store contact us form data 
+function create_contact_form_table()
+{
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'contact_form_submissions';
+
+    // Define the structure of the table
+    $charset_collate = $wpdb->get_charset_collate();
+    $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        name varchar(255) NOT NULL,
+        email varchar(255) NOT NULL,
+        phone varchar(20) DEFAULT '' NOT NULL,
+        message text NOT NULL,
+        created_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        PRIMARY KEY (id)
+    ) $charset_collate;";
+
+    // Include the upgrade function to create the table
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+}
+add_action('init', 'create_contact_form_table');
+
+//Handle contact us form submission 
+function handle_contact_form_submission()
+{
+    if (isset($_POST['submit_contact_form'])) {
+        global $wpdb;
+
+        // Sanitize form data
+        $name = sanitize_text_field($_POST['full-name']);
+        $email = sanitize_email($_POST['email']);
+        $phone = sanitize_text_field($_POST['phone-number']);
+        $message = sanitize_textarea_field($_POST['message']);
+
+        // Validate required fields
+        if (empty($name) || empty($email) || empty($message)) {
+            wp_die('Please fill in all required fields.');
+        }
+
+        // Insert form data into custom table
+        $table_name = $wpdb->prefix . 'contact_form_submissions';
+        $wpdb->insert(
+            $table_name,
+            array(
+                'name' => $name,
+                'email' => $email,
+                'phone' => $phone,
+                'message' => $message,
+                'created_at' => current_time('mysql'),
+            )
+        );
+
+        // Send an email to admin
+        $admin_email = "testing@rajballavkumar.com";
+        $subject = "New Contact Form Submission from " . $name;
+
+        $body = "<html>
+                        <head>
+                            <title>New Contact Form Submission</title>
+                            <style>
+                                body { font-family: Arial, sans-serif; }
+                                .container { width: 100%; padding: 20px; background-color: #f4f4f4; }
+                                .content { background-color: #fff; padding: 20px; border-radius: 5px; }
+                                h2 { color: #333; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class='container'>
+                                <div class='content'>
+                                    <h2>New Contact Form Submission</h2>
+                                    <p><strong>Name:</strong> {$name}</p>
+                                    <p><strong>Email:</strong> {$email}</p>
+                                    <p><strong>Phone:</strong> {$phone}</p>
+                                    <p><strong>Message:</strong></p>
+                                    <p>{$message}</p>
+                                </div>
+                            </div>
+                        </body>
+                </html>  ";
+
+        $headers = array(
+            'Content-Type: text/html; charset=UTF-8',
+            'From: ' . $admin_email
+        );
+        $touser = $admin_email; // change touser to recive email on given email address
+
+        // Send email to the admin
+        if (wp_mail($touser, $subject, $body, $headers)) {
+            // Redirect to a thank-you page
+            wp_redirect(home_url('/'));
+            exit;
+        } else {
+            wp_die('There was a problem sending the email.');
+        }
+
+
+    }
+}
+add_action('init', 'handle_contact_form_submission');
