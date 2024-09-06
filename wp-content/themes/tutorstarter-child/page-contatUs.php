@@ -84,10 +84,6 @@ get_header();
         </main>
     </div>
 
-
-
-    <div style="min-height: 50vh; margin-top:10px"></div>
-
 </body>
 
 <?php
